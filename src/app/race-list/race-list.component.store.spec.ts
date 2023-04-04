@@ -1,26 +1,26 @@
 import { fakeAsync, flush } from '@angular/core/testing';
 import { createServiceFactory, SpectatorService, SpyObject } from '@ngneat/spectator';
-import { DriverListApiService } from './driver-list-api.service';
-import { DriverListComponentStore } from './driver-list.component.store';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
 import { of, throwError } from 'rxjs';
-import { Driver } from './driver-list.types';
+import { RaceListComponentStore } from './race-list.component.store';
+import { RaceListApiService } from './race-list-api.service';
+import { Race } from './race-list.types';
 
-describe('DriverListComponentStore', () => {
-  let spectator: SpectatorService<DriverListComponentStore>;
-  let service: DriverListComponentStore;
+describe('RaceListComponentStore', () => {
+  let spectator: SpectatorService<RaceListComponentStore>;
+  let service: RaceListComponentStore;
   const createService = createServiceFactory({
-    service: DriverListComponentStore,
-    mocks: [DriverListApiService]
+    service: RaceListComponentStore,
+    mocks: [RaceListApiService]
   });
 
-  let driverListApiService: SpyObject<DriverListApiService>;
+  let raceListApiService: SpyObject<RaceListApiService>;
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
 
-    driverListApiService = spectator.inject(DriverListApiService);
+    raceListApiService = spectator.inject(RaceListApiService);
   });
 
   describe('loadData', () => {
@@ -30,35 +30,38 @@ describe('DriverListComponentStore', () => {
       const loadingSpy = subscribeSpyTo(service.loading$);
       const totalSpy = subscribeSpyTo(service.total$);
 
-      const expectedDrivers: Driver[] = [
+      const expectedRaces: Race[] = [
         {
-          dateOfBirth: '01-01-2021',
-          familyName: 'Wayne',
-          givenName: 'Bruce',
-          nationality: 'Gotham',
-          permanentNumber: '1',
+          date: '01-01-2021',
+          round: '1',
+          Circuit: {
+            circuitName: 'Gotham City Circuit'
+          },
+          raceName: 'Gotham Grand Prix',
         },
         {
-          dateOfBirth: '01-01-2021',
-          familyName: 'Kent',
-          givenName: 'Clark',
-          nationality: 'Metropolis',
-          permanentNumber: '1',
+          date: '01-01-2021',
+          round: '2',
+          Circuit: {
+            circuitName: 'Metropolis City Circuit'
+          },
+          raceName: 'Metropolis Grand Prix',
         },
         {
-          dateOfBirth: '01-01-2021',
-          familyName: 'Prince',
-          givenName: 'Diana',
-          nationality: 'Paradise Island',
-          permanentNumber: '1',
+          date: '01-01-2021',
+          round: '3',
+          Circuit: {
+            circuitName: 'Paradise Island Circuit'
+          },
+          raceName: 'Paradise Grand Prix',
         },
       ]
-      driverListApiService.getDriverList.and.returnValue(of({
+      raceListApiService.getRaceList.and.returnValue(of({
         MRData: {
-          DriverTable: {
-            Drivers: expectedDrivers
+          RaceTable: {
+            Races: expectedRaces,
           },
-          total: '15'
+          total: '15',
         }
       }));
 
@@ -66,7 +69,7 @@ describe('DriverListComponentStore', () => {
       service.connect();
       flush();
 
-      expect(dataSpy.getValues()).toEqual([[], expectedDrivers]);
+      expect(dataSpy.getValues()).toEqual([[], expectedRaces]);
       expect(errorSpy.getValues()).toEqual([null]);
       expect(loadingSpy.getValues()).toEqual([false, true, false]);
       expect(totalSpy.getLastValue()).toEqual(15);
@@ -77,7 +80,7 @@ describe('DriverListComponentStore', () => {
       const errorSpy = subscribeSpyTo(service.error$);
       const loadingSpy = subscribeSpyTo(service.loading$);
 
-      driverListApiService.getDriverList.and.returnValue(throwError(() => new Error('Come up with a more interesting error message.')));
+      raceListApiService.getRaceList.and.returnValue(throwError(() => new Error('Come up with a more interesting error message.')));
 
       service.setSeason('2018');
       service.connect();
