@@ -1,54 +1,23 @@
 import { inject, Injectable } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { filter, Observable } from "rxjs";
-import { ErgastApiComponentStore } from "src/app/ergast-api/ergast-api.component.store";
-import { ErgastApiResponse, ErgastApiVariables } from "src/app/ergast-api/ergast-api.types";
+import type { Observable } from "rxjs";
+import { ErgastApiResponse } from "src/app/ergast-api/ergast-api.types";
 import { RaceDetailsApiService } from "../race-details-api.service";
+import { RaceDetailsDataSourceApiVariables, RaceDetailsDataSourceStore } from "../race-details-data-source.store";
 import { RaceResult, RaceResultsResponse } from "../race-details.types";
 
-interface RaceResultsApiVariables extends ErgastApiVariables {
-    round: string;
-}
-
-interface RaceResultsComponentState extends Record<string, unknown> {
-    round: string | null;
-}
-
 @Injectable()
-export class RaceResultsComponentStore extends ErgastApiComponentStore<RaceResult, RaceResultsApiVariables, RaceResultsResponse, RaceResultsComponentState> {
+export class RaceResultsComponentStore extends RaceDetailsDataSourceStore<RaceResult, RaceResultsResponse> {
     // region Dependency Injections
-
-    private readonly activatedRoute = inject(ActivatedRoute);
 
     private readonly raceDetailsApiService = inject(RaceDetailsApiService);
 
     // endregion Dependency Injections
 
     constructor() {
-        super({ round: null });
+        super();
     }
 
-    // region Read
-
-    private readonly round$ = this.select((state) => state.round).pipe(filter(Boolean));
-
-    protected override readonly apiVariables$ = this.select(
-        this.limit$,
-        this.offset$,
-        this.round$,
-        this.season$,
-        (limit, offset, round, season) => ({ limit, offset, round, season })
-    )
-
-    // endregion Read
-
-    // region Write
-
-    readonly setRound = this.updater((state, round: string) => ({ ...state, round }));
-
-    // endregion Write
-
-    protected override getApiQuery({ limit, offset, round, season }: RaceResultsApiVariables): Observable<ErgastApiResponse<RaceResultsResponse>> {
+    protected override getApiQuery({ limit, offset, round, season }: RaceDetailsDataSourceApiVariables): Observable<ErgastApiResponse<RaceResultsResponse>> {
         return this.raceDetailsApiService.getRaceResults(season, round, limit, offset);
     }
 

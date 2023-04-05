@@ -10,8 +10,8 @@ export interface RaceDetailsResponse extends MRData {
 
 export interface DriverStanding {
     Driver: Driver;
-    points: number;
-    position: number;
+    points: string;
+    position: string;
 }
 
 export interface DriverStandingsResponse extends MRData {

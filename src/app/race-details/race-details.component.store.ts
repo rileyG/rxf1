@@ -69,7 +69,7 @@ export class RaceDetailsComponentStore extends ComponentStore<RaceDetailsCompone
                     details: response.MRData.RaceTable.Races[0],
                     loading: false,
                 }),
-                () => this.patchState({ loading: false })
+                (error: Error) => this.patchState({ error: error.message, loading: false })
             )
         ))
     ))
