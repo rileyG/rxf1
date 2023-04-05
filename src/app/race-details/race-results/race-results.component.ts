@@ -4,11 +4,12 @@ import { MatTableModule } from '@angular/material/table';
 import { RaceResultsComponentStore } from './race-results.component.store';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { LetModule, PushModule } from '@ngrx/component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-race-results',
   standalone: true,
-  imports: [MatTableModule, NgIf, MatPaginatorModule, LetModule, PushModule],
+  imports: [MatTableModule, NgIf, MatPaginatorModule, LetModule, PushModule, MatProgressBarModule],
   templateUrl: './race-results.component.html',
   styleUrls: ['./race-results.component.scss'],
   providers: [RaceResultsComponentStore]

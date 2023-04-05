@@ -4,11 +4,12 @@ import { QualifyingResultsComponentStore } from './qualifying-results.component.
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { LetModule, PushModule } from '@ngrx/component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-qualifying-results',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, NgIf, LetModule, PushModule],
+  imports: [MatTableModule, MatPaginatorModule, NgIf, LetModule, PushModule, MatProgressBarModule],
   templateUrl: './qualifying-results.component.html',
   styleUrls: ['./qualifying-results.component.scss'],
   providers: [QualifyingResultsComponentStore]

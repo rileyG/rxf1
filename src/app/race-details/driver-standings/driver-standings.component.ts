@@ -4,11 +4,12 @@ import { DriverStandingsComponentStore } from './driver-standings.component.stor
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { LetModule, PushModule } from '@ngrx/component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-driver-standings',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, LetModule, PushModule, NgIf],
+  imports: [MatTableModule, MatPaginatorModule, LetModule, PushModule, NgIf, MatProgressBarModule],
   templateUrl: './driver-standings.component.html',
   styleUrls: ['./driver-standings.component.scss'],
   providers: [DriverStandingsComponentStore]

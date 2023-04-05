@@ -1,5 +1,8 @@
 <app-season-selector [formControl]="seasonControl"></app-season-selector>
-<mat-progress-bar *ngIf="loading$ | ngrxPush" color="primary" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar *ngIf="loading$ | ngrxPush"></mat-progress-bar>
+<div *ngIf="error$ | ngrxPush as error" class="alert">
+    An error occurred: {{ error }}
+</div>
 <p>* Click a row to see detailed information about that race</p>
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="round">

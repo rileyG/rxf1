@@ -13,25 +13,33 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title>Final Results</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <app-race-results [round]="round" [season]="season"></app-race-results>
+                    <ng-template matExpansionPanelContent>
+                        <app-race-results [round]="round" [season]="season"></app-race-results>
+                    </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>Qualifying Results</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <app-qualifying-results [round]="round" [season]="season"></app-qualifying-results>
+                    <ng-template matExpansionPanelContent>
+                        <app-qualifying-results [round]="round" [season]="season"></app-qualifying-results>
+                    </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>Driver Standings</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <app-driver-standings [round]="round" [season]="season"></app-driver-standings>
+                    <ng-template matExpansionPanelContent>
+                        <app-driver-standings [round]="round" [season]="season"></app-driver-standings>
+                    </ng-template>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>Finishing Status</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <app-finishing-status [round]="round" [season]="season"></app-finishing-status>
+                    <ng-template matExpansionPanleContent>
+                        <app-finishing-status [round]="round" [season]="season"></app-finishing-status>
+                    </ng-template>
                 </mat-expansion-panel>
             </mat-accordion>
         </ng-container>

@@ -1,3 +1,7 @@
+<mat-progress-bar *ngIf="loading$ | ngrxPush"></mat-progress-bar>
+<div *ngIf="error$ | ngrxPush as error" class="alert">
+    An error occurred: {{ error }}
+</div>
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>Position</th>

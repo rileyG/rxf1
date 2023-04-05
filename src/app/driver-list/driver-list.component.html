@@ -1,5 +1,8 @@
 <app-season-selector [formControl]="seasonControl"></app-season-selector>
-<mat-progress-bar mode="indeterminate" color="primary" *ngIf="loading$ | ngrxPush"></mat-progress-bar>
+<mat-progress-bar *ngIf="loading$ | ngrxPush"></mat-progress-bar>
+<div *ngIf="error$ | ngrxPush as error" class="alert">
+    An error occurred: {{ error }}
+</div>
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="permanentNumber">
         <th mat-header-cell *matHeaderCellDef>Number</th>

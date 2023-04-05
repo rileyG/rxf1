@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MAT_PROGRESS_BAR_DEFAULT_OPTIONS } from '@angular/material/progress-bar';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'drivers' },
@@ -26,7 +27,9 @@ const routes: Routes = [
     MatToolbarModule,
     MatButtonModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_PROGRESS_BAR_DEFAULT_OPTIONS, useValue: { mode: 'indeterminate' } },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
