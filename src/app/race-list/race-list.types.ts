@@ -1,16 +1,15 @@
-import { Driver } from '../driver-list/driver-list.types';
 import { MRData } from '../ergast-api/ergast-api.types';
 
+/**
+ * A circuit that a race is associated with.
+ */
 export interface Circuit {
     circuitName: string;
 }
 
-export interface RaceResult {
-    number: string;
-    position: string;
-    Driver: Driver;
-}
-
+/**
+ * The data for a race returned from the API call.
+ */
 export interface Race {
     Circuit: Circuit;
     date: string;
@@ -18,6 +17,9 @@ export interface Race {
     round: string;
 }
 
+/**
+ * The response type for an API call retrieving a race list.
+ */
 export interface RaceListResponse extends MRData {
     RaceTable: {
         Races: Race[];

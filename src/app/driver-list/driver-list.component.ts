@@ -5,7 +5,8 @@ import { SeasonSelectorComponent } from '../season-selector/season-selector.comp
 import { DriverListComponentStore } from './driver-list.component.store';
 import { debounceTime } from 'rxjs';
 import { MatTableModule } from "@angular/material/table";
-import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
+import type { PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from "@angular/material/paginator";
 import { DriverListApiService } from './driver-list-api.service';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MatProgressBarModule } from "@angular/material/progress-bar";

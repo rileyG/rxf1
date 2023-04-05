@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import type { PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RaceListComponentStore } from './race-list.component.store';
 import { debounceTime } from 'rxjs';
@@ -11,6 +12,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
+/**
+ * Component for displaying a table of races for a given season.
+ */
 @Component({
   selector: 'app-race-list',
   standalone: true,
@@ -76,6 +80,9 @@ export class RaceListComponent {
     this.raceListComponentStore.setPageVariables(event);
   }
 
+  /**
+   * Navigate to the race details page for the given round.
+   */
   protected viewRaceResults(round: number): void {
     this.router.navigate([this.seasonControl.value, round]);
   }
