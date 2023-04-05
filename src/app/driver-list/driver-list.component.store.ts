@@ -6,7 +6,7 @@ import { ErgastApiComponentStore } from "../ergast-api/ergast-api.component.stor
 import { ErgastApiResponse, ErgastApiVariables } from "../ergast-api/ergast-api.types";
 
 @Injectable()
-export class DriverListComponentStore extends ErgastApiComponentStore<Driver, ErgastApiVariables, DriverListResponse> {
+export class DriverListComponentStore extends ErgastApiComponentStore<Driver, ErgastApiVariables, DriverListResponse, Record<string, never>> {
     // region Dependency Injections
 
     private readonly driverListApiService = inject(DriverListApiService);
@@ -14,7 +14,7 @@ export class DriverListComponentStore extends ErgastApiComponentStore<Driver, Er
     // endregion Dependency Injections
 
     constructor() {
-        super();
+        super({});
     }
 
     // region Read

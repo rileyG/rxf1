@@ -6,7 +6,7 @@ import { RaceListApiService } from "./race-list-api.service";
 import { Race, RaceListResponse } from "./race-list.types";
 
 @Injectable()
-export class RaceListComponentStore extends ErgastApiComponentStore<Race, ErgastApiVariables, RaceListResponse> {
+export class RaceListComponentStore extends ErgastApiComponentStore<Race, ErgastApiVariables, RaceListResponse, Record<string, never>> {
     // region Dependency Injections
 
     private readonly raceListApiService = inject(RaceListApiService);
@@ -14,7 +14,7 @@ export class RaceListComponentStore extends ErgastApiComponentStore<Race, Ergast
     // endregion Dependency Injections
 
     constructor() {
-        super();
+        super({});
     }
 
     // region Read
@@ -33,7 +33,6 @@ export class RaceListComponentStore extends ErgastApiComponentStore<Race, Ergast
     }
 
     protected override getDataFromApiResponse(response: ErgastApiResponse<RaceListResponse>): Race[] {
-        console.log(response.MRData.RaceTable.Races);
         return response.MRData.RaceTable.Races;
     }
 }

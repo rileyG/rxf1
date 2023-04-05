@@ -1,0 +1,11 @@
+<mat-progress-spinner *ngIf="loading$ | ngrxPush; else loaded"></mat-progress-spinner>
+<ng-template #loaded>
+    <div *ngIf="error$ | ngrxPush as error; else finishingData" class="alert">
+        An error occurred: {{ error }}
+    </div>
+    <ng-template #finishingData>
+        <h4>Finished: {{ finished$ | ngrxPush }}</h4>
+        <h4>Accidents: {{ accident$ | ngrxPush }}</h4>
+        <h4>+1 Lap: {{ plusOneLap$ | ngrxPush }}</h4>
+    </ng-template>
+</ng-template>

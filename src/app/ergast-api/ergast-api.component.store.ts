@@ -34,7 +34,7 @@ function initializeState<Data>(): ErgastApiComponentState<Data> {
  * is connected to the appropriate table.
  */
 @Injectable()
-export abstract class ErgastApiComponentStore<Data, ApiVariables extends ErgastApiVariables, ApiResponse extends MRData> extends ComponentStore<ErgastApiComponentState<Data>> implements DataSource<Data> {
+export abstract class ErgastApiComponentStore<Data, ApiVariables extends ErgastApiVariables, ApiResponse extends MRData, State extends Record<string, unknown>> extends ComponentStore<ErgastApiComponentState<Data> & State> implements DataSource<Data> {
     // region Read
 
     /**
@@ -81,6 +81,13 @@ export abstract class ErgastApiComponentStore<Data, ApiVariables extends ErgastA
 
     // region Write
 
+    private readonly setData = this.updater((state, response: ErgastApiResponse<ApiResponse>) => ({
+        ...state,
+        data: this.getDataFromApiResponse(response),
+        loading: false,
+        total: Number.parseInt(response.MRData.total, 10),
+    }))
+
     /**
      * Update the state with new pagination variables.
      */
@@ -96,7 +103,11 @@ export abstract class ErgastApiComponentStore<Data, ApiVariables extends ErgastA
     readonly setSeason = this.updater((state, season: string | null) => ({
         ...state,
         season,
-    }))
+    }));
+
+    readonly setError = this.updater((state, error: string | null) => ({ ...state, error }));
+
+    private readonly setLoading = this.updater((state, loading: boolean) => ({ ...state, loading }))
 
     // endregion Write
 
@@ -106,23 +117,28 @@ export abstract class ErgastApiComponentStore<Data, ApiVariables extends ErgastA
      * Load data for the current API query, ensuring loading is properly indicated, and handling both successful and failure responses from the API.
      */
     protected readonly loadData = this.effect((variables$: Observable<ApiVariables>) => variables$.pipe(
-        tap(() => this.patchState({ error: null, loading: true })),
+        tap(() => {
+            this.setError(null);
+            this.setLoading(true);
+        }),
         switchMap((variables) => this.getApiQuery(variables).pipe(
             tapResponse(
-                (response) => this.patchState({
-                    data: this.getDataFromApiResponse(response),
-                    loading: false,
-                    total: Number.parseInt(response.MRData.total, 10)
-                }),
-                (error: Error) => this.patchState({ error: error.message, loading: false }),
+                (response) => this.setData(response),
+                (error: Error) => {
+                    this.setError(error.message);
+                    this.setLoading(false)
+                },
             )
         ))
     ))
 
     // endregion Effect
 
-    constructor() {
-        super(initializeState<Data>());
+    constructor(initialState: State) {
+        super({
+            ...initializeState<Data>(),
+            ...initialState,
+        });
     }
 
     /**

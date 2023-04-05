@@ -1,0 +1,43 @@
+<a mat-button [routerLink]="['/races']">Back to race list</a>
+<div *ngIf="error$ | ngrxPush as error" class="alert">
+    An error occurred: {{ error }}
+</div>
+<mat-progress-spinner *ngIf="loading$ | ngrxPush; else dataLoaded;"></mat-progress-spinner>
+<ng-template #dataLoaded>
+    <div *ngIf="raceDetails$ | ngrxPush as raceDetails; else noData">
+        <h1>{{ raceDetails.raceName }}</h1>
+        <h2>{{ raceDetails.Circuit.circuitName }}</h2>
+        <ng-container *ngrxLet="season$; let season">
+            <mat-accordion *ngrxLet="round$; let round">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Final Results</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-race-results [round]="round" [season]="season"></app-race-results>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Qualifying Results</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-qualifying-results [round]="round" [season]="season"></app-qualifying-results>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Driver Standings</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-driver-standings [round]="round" [season]="season"></app-driver-standings>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Finishing Status</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-finishing-status [round]="round" [season]="season"></app-finishing-status>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </ng-container>
+    </div>
+    <ng-template #noData>
+        <h3>No data could be found for the provided race. This may be because you provided the season and round for a race that hasn't happened yet.</h3>
+    </ng-template>
+</ng-template>
+

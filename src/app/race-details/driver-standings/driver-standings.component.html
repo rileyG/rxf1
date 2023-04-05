@@ -1,0 +1,28 @@
+<table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef>Points</th>
+        <td mat-cell *matCellDef="let row">{{ row.points }}</td>
+    </ng-container>
+    <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Position</th>
+        <td mat-cell *matCellDef="let row">{{ row.position }}</td>
+    </ng-container>
+    <ng-container matColumnDef="driver">
+        <th mat-header-cell *matHeaderCellDef>Driver</th>
+        <td mat-cell *matCellDef="let row">
+            {{ row.Driver.familyName }}, {{ row.Driver.givenName }}
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+</table>
+<ng-container *ngrxLet="total$; let total">
+    <h5 *ngIf="total === 0">No data has been loaded.</h5>
+    <mat-paginator [length]="total"
+        [pageSize]="limit$ | ngrxPush"
+        [pageSizeOptions]="[10, 15, 25]"
+        (page)="updatePageInfo($event)">
+    </mat-paginator>
+</ng-container>
+

@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'drivers' },
   { path: 'drivers', loadComponent: () => import('./driver-list/driver-list.component').then((m) => m.DriverListComponent) },
   { path: 'races', loadComponent: () => import('./race-list/race-list.component').then((m) => m.RaceListComponent) },
+  { path: 'race/:season/:round', loadComponent: () => import('./race-details/race-details.component').then((m) => m.RaceDetailsComponent) },
 ]
 
 @NgModule({
